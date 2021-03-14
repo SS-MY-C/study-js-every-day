@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body,ul,ol{
+            margin: 0;
+            padding: 0;
+        }
+        li{
+            list-style: none;
+
+        }
+        img{
+            vertical-align: middle;
+        }
+        #box{
+            border: 1px solid block;
+            width: 100%;
+            height: 700px;
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+        }
+        ul{
+            margin: 0 auto;
+            z-index: 1;
+            width: 640px;
+            height: 700px;
+            position: absolute;
+            left: 29.5%;
+        }
+        ul li{
+            display: none;
+        }
+        ol{
+            z-index: 2;
+            position: absolute;
+            width: 50px;
+            height:640px ;
+            left: 70%;
+        }
+        ol li{
+            width: 10px;
+            height: 80px;
+            border-radius: 10px 10px;
+            color: #999;
+            background-color: rgb(80, 79, 79);
+            line-height: 80px;
+            margin: 5px 0px;
+        }
+        ol .active{
+            background-color: white;
+            color: rgb(80, 79, 79);
+        }
+    </style>
+    <script type="text/javascript" src="move.js"></script>
+    <script>
+        window.onload = function(){
+            let imgUl = document.getElementsByTagName('ul')[0];
+            let imgLi = imgUl.getElementsByTagName('li');
+
+            let tagOl = document.getElementsByTagName('ol')[0];
+            let tagLi = tagOl.getElementsByTagName('li');
+
+            let iNow = 0;
+            let timer = null;
+
+            let oBox = document.getElementById('listimg');
+
+            for(let i = 0;i<tagLi.length;i++){
+                tagLi[i].index = i;
+                tagLi[i].onmouseover = function(){
+                    for(let i =0;i<tagLi.length;i++){
+                        tagLi[i].className='';
+                        imgLi[i].style.display = 'none';
+                        imgLi[i].style.opacity = 0;
+                    }
+                    this.className = 'active';
+                    imgLi[this.index].style.display = 'block';
+                    startMove(imgLi[this.index],{opacity:100});
+                };
+            }
+
+            timer = setInterval(toRun,2000);
+
+            oBox.onmouseover = function(){
+                clearInterval(timer);
+            };
+            oBox.onmouseout = function(){
+                timer = setInterval(toRun , 2000);
+            };
+            function toRun(){
+                if(iNow == tagLi.length-1){
+                    iNow = 0;
+                }
+                else{
+                    iNow+=1;
+                }
+                for(let i=iNow ; i<tagLi.length;i++){
+                    tagLi[i].index = i;
+                    for(let i=0 ; i<tagLi.length ;i++ ){
+                        tagLi[i].className = '';
+                        imgLi[i].style.display = 'none';
+                        imgLi[i].style.opacity = '0';
+                    }
+                    tagLi[iNow].className = 'active';
+                    imgLi[iNow].style.display = 'block';
+                    startMove(imgLi[iNow],{opacity:100});
+                }
+                
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <ul id="listimg">
+            <li style="display: block;"><img src="img/lalisa (1).jpg" alt=""></li>
+            <li><img src="img/lalisa (2).jpg" alt=""></li>
+            <li><img src="img/lalisa (3).jpg" alt=""></li>
+            <li><img src="img/lalisa (4).jpg" alt=""></li>
+            <li><img src="img/lalisa (5).jpg" alt=""></li>
+            <li><img src="img/lalisa (6).jpg" alt=""></li>
+            <li><img src="img/lalisa (7).jpg" alt=""></li>
+            <li><img src="img/lalisa (8).jpg" alt=""></li>
+        </ul>
+        <ol id="tag">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ol>
+    </div>
+</body>
+</html>

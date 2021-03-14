@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul,ol,div{
+            margin: 0;
+            padding: 0;
+        }
+        ul , ol{
+            list-style: none;
+        }
+        #box{
+            width: 100%;
+            height: 700px;
+            position: relative;
+        }
+        ul{
+            overflow: hidden;
+            width: 640px;
+            height: 700px;
+            position: absolute;
+            left: 29.5%;
+        }
+        ul li{
+            z-index: 1;
+            display: none;
+            position: absolute;
+            opacity: 0;
+        }
+        ol{
+            margin: 0px;
+            padding: 0px;
+            width: 8px;
+            height: 640px;
+            position: absolute;
+            left: 70%;
+            top: 5%;
+            z-index: 2;
+        }
+        ol li{
+
+            padding: 0px;
+            height: 64px;
+            margin: 15px 0px;
+            border-radius: 5px 5px;
+            width: 8px;
+            background-color: #999;
+        }
+        ol .active{
+            background: pink;
+        }
+    </style>
+    <script src="move.js"></script>
+    <script>
+
+    window.onload = function(){
+        let oOl = document.getElementsByTagName('ol')[0];
+        let tagLi = oOl.getElementsByTagName('li');
+        let imgUl = document.getElementsByTagName('ul')[0];
+        let imgLi = document.getElementsByTagName('li');
+
+        for(let i = 0;i<tagLi.length;i++){
+            tagLi[i].index = i;
+            tagLi[i].onmouseover = function(){
+                for(let i = 0;i<tagLi.length;i++){
+                    tagLi[i].className = '';
+
+                    startMove(imgLi[i],{opacity:0},function(){
+                        this.style.display = 'none';
+                    })
+                }
+                this.className = 'active';
+                imgLi[this.index].style.display = 'block';
+                startMove(imgLi[this.index],{opacity:100});
+            };
+        }
+        let stopMove = document.getElementById('listimg');
+        let iNow = 0;
+        let timer=null;
+        timer = setInterval(toRun,2000);
+
+        stopMove.onmouseover = function(){
+            clearInterval(timer);
+        };
+        stopMove.onmouseout = function(){
+            timer = setInterval(toRun,2000);
+        };
+        
+        function toRun(){
+            if(iNow == tagLi.length-1){
+                iNow = 0;
+            }
+            else{
+                iNow+=1;
+            }
+            for(let i=iNow ; i<tagLi.length ;i++){
+                tagLi[i].index = i;
+                for(let i=0 ; i<tagLi.length;i++){
+                    tagLi[i].className = '';
+                    startMove(imgLi[i],{opacity:0},function(){
+                        this.style.display = 'none';
+                    })
+                }
+                tagLi[iNow].className = 'active';
+                imgLi[iNow].style.display = 'block';
+                startMove(imgLi[iNow],{opacity:100});
+            }
+        };
+    }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <ul id="listimg">
+            <li id="imgli" style="display: block; opacity: 1;"><img src="img/lalisa (1).jpg" alt=""></li>
+            <li id="imgli"><img src="img/lalisa (2).jpg" alt=""></li>
+            <li id="imgli"><img src="img/lalisa (3).jpg" alt=""></li>
+            <li id="imgli"><img src="img/lalisa (4).jpg" alt=""></li>
+            <li id="imgli"><img src="img/lalisa (5).jpg" alt=""></li>
+            <li id="imgli"><img src="img/lalisa (6).jpg" alt=""></li>
+            <li id="imgli"><img src="img/lalisa (7).jpg" alt=""></li>
+            <li id="imgli"><img src="img/lalisa (8).jpg" alt=""></li>
+        </ul>
+        <ol id="tag">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ol>
+    </div>
+</body>
+</html>
