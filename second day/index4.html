@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul,ol,body{
+            padding: 0;
+            margin: 0;
+        }
+        li{
+            list-style: none;
+        }
+        img{
+            height: 720px;
+        }
+        body{
+            background-color: rgb(243, 243, 243);
+        }
+        #box{
+            width: 575px;
+            height: 720px;
+            text-align: center;
+            margin: 0px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        ul{
+            width: 580px;
+            height: 720px;
+            position: absolute;
+        }
+        ul li{
+            position: absolute;
+        }
+        ol{
+            position: absolute;
+            height: 720px;
+            width: 10px;
+            right: 5px;
+            top: 10%;
+        }
+        ol li{
+            border-radius: 2px 2px;
+            width: 3px;
+            height: 68px;
+            margin: 20px 0;
+            background: rgb(202, 196, 196);
+
+        }
+        ol .active{
+            background: rgb(209, 144, 144);
+        }
+    </style>
+    <script type="text/javascript" src="move.js"></script>
+    <script>
+        window.onload = function(){
+            let imgUl = document.getElementsByTagName('ul')[0];
+            let imgLi = imgUl.getElementsByTagName('li');
+            let tagOl = document.getElementsByTagName('ol')[0];
+            let tagLi = tagOl.getElementsByTagName('li');
+
+            let iNow = 0 , iNow2 = 0 ,timer =null , btn = true;
+            let oneWidth = imgLi[0].offsetWidth;
+
+            let stop = document.getElementById('box');
+            for(let i=1 ; i<imgLi.length ; i++){
+                imgLi[i].style.left = i*oneWidth + 'px';            
+            }
+
+
+            for(let i=0;i<tagLi.length;i++){
+                tagLi[i].index= i;
+                tagLi[i].onmouseover = function(){
+                    if(btn){
+                        btn = false;
+                    }
+                    for(let i=0 ;i<tagLi.length;i++){
+                        tagLi[i].className = '';
+                    }
+                    tagLi[i].className = 'active';
+
+                    if(iNow < this.index){
+                        imgLi[this.index].style.left = oneWidth +'px';
+                        startMove(imgLi[iNow] , {left : -oneWidth});
+                    }
+                    else if(iNow > this.index){
+                        imgLi[this.index].style.left = -oneWidth + 'px';
+                        startMove(imgLi[iNow] , {left : oneWidth});
+                    }
+
+                    startMove(imgLi[this.index] , {left : 0},function(){
+                        btn = true;
+                    })
+                    iNow = this.index;
+
+
+                }
+            }
+            timer = setInterval(toRun , 2000);
+            stop.onmouseover = function(){
+                clearInterval(timer);
+            }
+            stop.onmouseout = function(){
+                timer = setInterval(toRun , 2000);
+            }
+            function toRun(){
+                
+                if(iNow == tagLi.length - 1){
+                    iNow = 0;
+                    if(iNow == 0){
+                    for(let i=0 ; i<tagLi.length ;i++){
+                        imgLi[i].style.left = oneWidth;
+                    }
+                    startMove(imgLi[tagLi.length-1],{left:oneWidth})
+                    startMove(imgLi[0] , {left:0})
+                }
+
+                }
+                else{
+                    iNow += 1;
+                }
+                iNow2 +=1;
+                for(let i=0 ; i<tagLi.length ; i++){
+                    tagLi[i].className = '';
+                }
+                tagLi[iNow].className = 'active';
+                startMove(imgLi[iNow] , {left:0});
+                startMove(imgLi[iNow-1] , {left:oneWidth})
+                imgLi[iNow-1].style.left = oneWidth;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <ul id="listimg">
+            <li id="imgli"><img src="img2/lalisa (1).jpg" alt=""></li>
+            <li id="imgli"><img src="img2/lalisa (2).jpg" alt=""></li>
+            <li id="imgli"><img src="img2/lalisa (3).jpg" alt=""></li>
+            <li id="imgli"><img src="img2/lalisa (4).jpg" alt=""></li>
+            <li id="imgli"><img src="img2/lalisa (5).jpg" alt=""></li>
+            <li id="imgli"><img src="img2/lalisa (6).jpg" alt=""></li>
+        </ul>
+        <ol id="tag">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ol>
+    </div>
+</body>
+</html>
