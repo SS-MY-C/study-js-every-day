@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul{
+            list-style: none;
+        }
+        body , ul{
+            padding: 0;
+            margin: 0;
+        }
+        img{
+            width: 540px;
+            height: 540px;
+        }
+        div{
+            width: 540px;
+            height: 540px;
+            margin: 30px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        ul{
+            position: absolute;
+            width: 540px;
+            height: 540px;
+            z-index: 1;
+            left: 0;
+            top: 0;
+        }
+        li{
+            position: absolute;
+        }
+    </style>
+    <script src="move.js"></script>
+    <script>
+        window.onload = function(){
+            let imgUl = document.getElementsByTagName('ul')[0];
+            let imgLi = imgUl.getElementsByTagName('li');
+
+            let show = Math.ceil(540/imgLi.length);
+
+            for(let i=0 ; i<imgLi.length ; i++){
+                imgLi[i].style.left = show*i + 'px';
+            }
+
+            for(let i=0 ; i<imgLi.length ; i++){
+                imgLi[i].index = i;
+                imgLi[i].onmouseover = function(){
+                    for(let i=0 ; i<imgLi.length ; i++){
+                        if(i<=this.index){
+                            startMove(imgLi[i],{left : i*40});
+                        }
+                        else{
+                            startMove(imgLi[i],{left : (540-120)+(i-1)*40});
+                        }
+                        
+                    }
+                };
+                imgLi[i].onmouseout = function(){
+                    for(let i=0 ;i<imgLi.length ;i++){
+                        startMove(imgLi[i],{left : show *i})
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <ul>
+            <li><img src="img3/lisa1.jpg" alt=""></li>
+            <li><img src="img3/lisa2.jpg" alt=""></li>
+            <li><img src="img3/lisa3.jpg" alt=""></li>
+            <li><img src="img3/lisa4.jpg" alt=""></li>
+        </ul>
+    </div>
+</body>
+</html>
